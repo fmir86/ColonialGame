@@ -6,7 +6,6 @@
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="portrait" />
-    <preference name="Fullscreen" value="true" />
     <platform name="ios">
         <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
         <icon height="114" platform="ios" src="www/res/icon/ios/icon@2x.png" width="114" />
