@@ -30,8 +30,9 @@ var app = {
         
         canvas.width = w;
         canvas.height = h;
-        canvas.style.width = w + "px";
-        canvas.style.height = h + "px";
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = "auto";
+        
         
         stage.scaleX =1;
         stage.scaleY = 1;

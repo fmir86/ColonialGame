@@ -6,12 +6,11 @@ body{
 }
 
 #animation_container{
-    background-color:white;
-    width:800px; height:1067px;
+    background-color:#000;
 }
 
 canvas{
-    position: absolute;
+    position: static;
     display: block;
     background-color:white;
 }
