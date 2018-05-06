@@ -32,7 +32,7 @@ function initGame(cvs, stg){
     
     TweenMax.set(failScreen, {regX:400, regY:426, x:400, y:426, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
     TweenMax.set(successScreen, {regX:400, regY:426, x:400, y:426, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
-    TweenMax.set(warning, {y:852, alpha:0});
+    TweenMax.set(warning, {y:853, alpha:0});
     TweenMax.to(warning, 0.6, {alpha:1});
 
     /* Bubbles */
