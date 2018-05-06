@@ -3,8 +3,8 @@ this.Drag = this.Drag || {};
 (function() {
 
   var dragger;
-
   var deepLevel;
+  var deepLimit = 550;
 
   var startDrag = function(obj, insertBefore, callback) {
 
@@ -31,8 +31,8 @@ this.Drag = this.Drag || {};
         if(!dragger.mouseChildren) return;
 
         // Calculate the new X and Y based on the mouse new position plus the offset.
-        var cappedX = (evt.stageX) + evt.currentTarget.offset.x;
-        var cappedY = ((evt.stageY) + evt.currentTarget.offset.y < 1000) ? (evt.stageY) + evt.currentTarget.offset.y : 1000;
+        var cappedX = evt.stageX + evt.currentTarget.offset.x;
+        var cappedY = ((evt.stageY) + evt.currentTarget.offset.y < deepLimit) ? (evt.stageY) + evt.currentTarget.offset.y : deepLimit;
         TweenMax.to(evt.currentTarget, 1, {x: cappedX, y:cappedY, ease:Back.easeOut});
 
         Drag.deepLevel = evt.currentTarget.y;

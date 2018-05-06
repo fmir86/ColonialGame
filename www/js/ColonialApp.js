@@ -5,16 +5,22 @@ var seaAnimation;
 var bubblesLayer, bubbleImg;
 var stillAlive = true; // TRUE if no collition with fishes
 var difficulty = 1;
-var realStageWidth = 1536;
-var realStageHeight = 2048;
+var realStageWidth = 800;
+var realStageHeight = 1067;
 
-var fishTopPosition = [200, 750, 1150, 1500];
+var fishTopPosition = [
+                        Math.round(realStageHeight * 0.10),
+                        Math.round(realStageHeight * 0.36),
+                        Math.round(realStageHeight * 0.36),
+                        Math.round(realStageHeight * 0.76)
+                      ];
 
 var selectedFishAsset = 0;
 var selectedDir = 0; // 0 = left / 1 = right
 var selectedY = fishTopPosition[2];
 
 function initGame(cvs, stg){
+    
     canvas = cvs;
     stage = stg;
 
@@ -23,9 +29,10 @@ function initGame(cvs, stg){
     successScreen = new createjs.Bitmap("img/successScreen.jpg");
     overFrame = new createjs.Bitmap("img/frame.png");
     warning = new createjs.Bitmap("img/warning.jpg");
-    TweenMax.set(failScreen, {regX:768, regY:1024, x:768, y:1024, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
-    TweenMax.set(successScreen, {regX:768, regY:1024, x:768, y:1024, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
-    TweenMax.set(warning, {y:1638, alpha:0});
+    
+    TweenMax.set(failScreen, {regX:400, regY:426, x:400, y:426, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
+    TweenMax.set(successScreen, {regX:400, regY:426, x:400, y:426, alpha:0, scaleX:1.05, scaleY:1.05, visible:false});
+    TweenMax.set(warning, {y:852, alpha:0});
     TweenMax.to(warning, 0.6, {alpha:1});
 
     /* Bubbles */
@@ -39,9 +46,9 @@ function initGame(cvs, stg){
     seaDarkness = new createjs.Shape();
     seaDarkness.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, realStageWidth, realStageHeight);
 	console.log("stage width: " + stage.getBounds());
-      TweenMax.set(deepScreen, {y:1800});
+      TweenMax.set(deepScreen, {y:100});
       TweenMax.set(seaDarkness, {alpha:0});
-      TweenMax.set(treasure, {y:1700, x:200, alpha:0});
+      TweenMax.set(treasure, {y:950, x:100, alpha:0});
         seaLayersPack.addChild(seaBG);
         seaLayersPack.addChild(seaDarkness);
         seaLayersPack.addChild(deepScreen);
@@ -58,8 +65,8 @@ function initGame(cvs, stg){
     hook = new createjs.Bitmap("img/hook.png");
     light = new createjs.Bitmap("img/light.png");
     cord = new createjs.Bitmap("img/cord.png");
-    TweenMax.set(hook, {y:1310, x:-48});
-    TweenMax.set(light, {y:1160, x:-240, alpha:0});
+    TweenMax.set(hook, {y:1310, x:-24});
+    TweenMax.set(light, {y:1220, x:-120, alpha:0});
     hookGroup.addChild(light);
     hookGroup.addChild(hook);
     hookGroup.addChild(cord);
@@ -88,15 +95,15 @@ function createSeaAnimation(){
   seaAnimation.set(seaDarkness, {alpha:0});
   seaAnimation.set(light, {alpha:0});
   seaAnimation.set(deepScreen, {y:1800});
-  seaAnimation.set(treasure, {y:1700, alpha:1});
+  seaAnimation.set(treasure, {y:950, alpha:1});
   seaAnimation.set(fishesLayer, {y:0});
   seaAnimation.set(bubblesLayer, {y:0});
   seaAnimation.to(seaDarkness, 7, {alpha:1, ease:Power2.easeOut});
   seaAnimation.to(light, 8, {alpha:1}, "-=5");
-  seaAnimation.to(deepScreen, 10, {y:-300, ease:Sine.easeInOut}, "-=10");
+  seaAnimation.to(deepScreen, 10, {y:-200, ease:Sine.easeInOut}, "-=10");
   seaAnimation.to(fishesLayer, 10, {y:-2000, ease:Sine.easeOut}, "-=10");
   seaAnimation.to(bubblesLayer, 10, {y:-2000, ease:Sine.easeOut}, "-=10");
-  seaAnimation.to(treasure, 3, {y:1150, ease: Sine.easeOut}, "-=3");
+  seaAnimation.to(treasure, 3, {y:600, ease: Sine.easeOut}, "-=3");
   seaAnimation.pause();	
 }
 
@@ -138,7 +145,7 @@ function createBubblesAnimation(){
 
 function showInitScreen(){
   stage.addChildAt(initScreen, stage.getChildIndex(warning));
-  TweenMax.set(initScreen, {regX:768, regY:1024, x:768, y:1024, alpha:0, scaleX:1.05, scaleY:1.05, });
+  TweenMax.set(initScreen, {regX:400, regY:426, x:400, y:426, alpha:0, scaleX:1.05, scaleY:1.05, });
   TweenMax.to(initScreen, 0.6, {scaleX:1, scaleY:1, alpha:1});
 }
 
@@ -151,8 +158,8 @@ function startGame(e){
   TweenMax.set(seaBG, {visible:true});
   TweenMax.set(overFrame, {visible:true});
   TweenMax.to(initScreen, 0.3, {scaleX:1.05, scaleY:1.05, alpha:0, ease:Power1.easeIn});
-  TweenMax.set(hookGroup, {x:768, y:-1500, alpha:1});
-  TweenMax.to(hookGroup, 4, {x:768, y:-1000, delay:0.3, ease:Back.easeOut});
+  TweenMax.set(hookGroup, {x:400, y:-1500, alpha:1});
+  TweenMax.to(hookGroup, 4, {x:400, y:-1100, delay:0.3, ease:Back.easeOut});
 
   activateHookDragging();
   throwFishes();
@@ -172,7 +179,7 @@ function onNewAnimationFrame(){
 
 function goingDown(){
 	
-  if(Drag.deepLevel > 500){
+  if(Drag.deepLevel > 300){
     if(seaAnimation.paused()){
         seaAnimation.play();
         TweenLite.set(seaAnimation, {timeScale:0})

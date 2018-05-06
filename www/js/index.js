@@ -25,15 +25,18 @@ var app = {
         canvas = document.getElementById("canvas");
         stage = new createjs.Stage(canvas);
 
-        var w = canvas.getAttribute("width"), h = canvas.getAttribute("height");
-        canvas.width = w * window.devicePixelRatio;
-        canvas.height = h * window.devicePixelRatio;
+        var w = 800;
+        var h = 1067;
+        
+        canvas.width = w;
+        canvas.height = h;
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
-        stage.scaleX = 0.5 * window.devicePixelRatio;
-        stage.scaleY = 0.5 * window.devicePixelRatio;
+        
+        stage.scaleX =1;
+        stage.scaleY = 1;
 
-        createjs.Ticker.setFPS(60);
+        createjs.Ticker.setFPS(30);
         createjs.Ticker.addEventListener("tick", stage);
 
         initGame(canvas, stage);
