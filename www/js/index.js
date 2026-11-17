@@ -7,7 +7,12 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        if (window.cordova) {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        } else {
+            // Plain browser (no cordova.js): 'deviceready' never fires, so start on page load.
+            window.addEventListener('load', this.onDeviceReady, false);
+        }
     },
     // deviceready Event Handler
     //

@@ -1,0 +1,6 @@
+# Cordova regenerates these from config.xml and www/
+platforms/
+plugins/
+node_modules/
+
+.DS_Store

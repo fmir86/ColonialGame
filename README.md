@@ -1,69 +1,59 @@
-# Hello World PhoneGap Template [![bitHound Score][bithound-img]][bithound-url]
+# Colonial Treasure Hunt
 
-A PhoneGap Hello World template
+A small HTML5 canvas game built in 2018 for iPad and Android tablets. You guide a hook down through the sea, avoid the fish and reach the treasure. It is packaged as a Cordova (PhoneGap) app, but the game itself is plain HTML and JavaScript in `www/` (CreateJS for the canvas, GSAP TweenMax for animation), so it also runs in any modern browser.
 
-## Usage
+## Project layout
 
-#### PhoneGap CLI
+- `www/` the game: `index.html`, `js/ColonialApp.js` (game logic), `js/index.js` (startup), `img/`, `css/`
+- `www/res/` app icons and splash screens for the native builds
+- `config.xml` Cordova app configuration
 
-The hello-world template is the default when you create a new application using the [phonegap-cli][phonegap-cli-url].
+The native platform folders (`platforms/`, `plugins/`) are not committed. Cordova generates them from `config.xml` and `www/`.
 
-    phonegap create my-app
+## Run in a browser
 
-Create an app using this template specifically:
+Requirements: Node.js 20 or newer (only used to run a static file server).
 
-    phonegap create my-app --template hello-world
+```
+npx serve www
+```
 
-To see a list of other available PhoneGap templates:
+Then open the URL it prints (http://localhost:3000 by default). The game is laid out for a portrait tablet screen, so a narrow, tall browser window or the device toolbar in your browser's dev tools works best.
 
-    phonegap template list
+Any static server works, for example `python3 -m http.server -d www 8000`. Opening `www/index.html` straight from disk is not recommended, because browsers restrict some canvas features on `file://` pages.
 
-## [config.xml][config-xml]
+In a plain browser the console shows a 404 for `cordova.js`. That is expected: Cordova injects that file only in native and Cordova browser builds, and the game starts on page load when it is missing.
 
-#### android-minSdkVersion (Android only)
+## Run with Cordova
 
-Minimum SDK version supported on the target device. Maximum version is blank by default.
+Requirements: Node.js 20 or newer. Commands below use `npx`, so a global Cordova install is optional.
 
-This template sets the minimum to `14`.
+Cordova browser platform (no extra SDKs needed):
 
-    <preference name="android-minSdkVersion" value="14" />
+```
+npx cordova@12 platform add browser
+npx cordova@12 run browser
+```
 
-#### &lt;access ...&gt; (All)
+iOS (needs macOS with Xcode, the iOS Simulator runtime installed from Xcode > Settings > Components, and CocoaPods):
 
-This template defaults to wide open access.
+```
+npx cordova@12 platform add ios
+npx cordova@12 build ios --emulator
+```
 
-    <access origin="*" />
+Running on a physical device or creating a release build also needs an Apple developer account for code signing.
 
-It is strongly encouraged that you restrict access to external resources in your application before releasing to production.
+Android (needs a JDK, the Android SDK and `ANDROID_HOME` set):
 
-For more information on whitelist configuration, see the [Cordova Whitelist Guide][cordova-whitelist-guide] and the [Cordova Whitelist Plugin documentation][cordova-plugin-whitelist]
+```
+npx cordova@12 platform add android
+npx cordova@12 build android
+```
 
-## [www/index.html][index-html]
+`cordova platform add` also creates a `package.json` that records the platform versions.
 
-#### Content Security Policy (CSP)
+## Known limitations
 
-The default CSP is similarly open:
-
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-
-Much like the access tag above, you are strongly encouraged to use a more restrictive CSP in production.
-
-A good starting point declaration might be:
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />
-
-For more information on the Content Security Policy, see the [section on CSP in the Cordova Whitelist Plugin documentation][cordova-plugin-whitelist-csp].
-
-Another good resource for generating a good CSP declaration is [CSP is Awesome][csp-is-awesome]
-
-
-[phonegap-cli-url]: http://github.com/phonegap/phonegap-cli
-[cordova-app]: http://github.com/apache/cordova-app-hello-world
-[bithound-img]: https://www.bithound.io/github/phonegap/phonegap-app-hello-world/badges/score.svg
-[bithound-url]: https://www.bithound.io/github/phonegap/phonegap-app-hello-world
-[config-xml]: https://github.com/phonegap/phonegap-template-hello-world/blob/master/config.xml
-[index-html]: https://github.com/phonegap/phonegap-template-hello-world/blob/master/www/index.html
-[cordova-whitelist-guide]: https://cordova.apache.org/docs/en/dev/guide/appdev/whitelist/index.html
-[cordova-plugin-whitelist]: http://cordova.apache.org/docs/en/latest/reference/cordova-plugin-whitelist
-[cordova-plugin-whitelist-csp]: http://cordova.apache.org/docs/en/latest/reference/cordova-plugin-whitelist#content-security-policy
-[csp-is-awesome]: http://cspisawesome.com
+- Current versions of cordova-ios use a single 1024x1024 app icon. The repo only has the older, smaller iOS icon sizes, so a fresh iOS build shows the default Cordova icon until a 1024x1024 icon is added to `config.xml`.
+- Current versions of cordova-android ignore the `<splash>` tags in `config.xml` and print a warning about them. The build still works.

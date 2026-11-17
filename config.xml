@@ -31,5 +31,4 @@
     <preference name="orientation" value="portrait" />
     <access origin="*" />
     
-    <engine name="android" spec="7.0.0" />
 </widget>
